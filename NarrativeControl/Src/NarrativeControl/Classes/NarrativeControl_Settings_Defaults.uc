@@ -5,6 +5,7 @@ var config string BradfordNarratives;
 var config bool NoGreetingsWhenNarrativePlaying;
 var config bool NoNarrativesInGeoscape;
 var config bool NoNarrativesAtAll;
+var config bool LogNarrativeInfo;
 
 struct NarrativeToSkip
 {

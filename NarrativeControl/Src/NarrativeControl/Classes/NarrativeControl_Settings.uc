@@ -24,6 +24,12 @@ var localized string strNoNarrativesAtAll;
 var localized string strNoNarrativesAtAllTooltip;
 var MCM_API_Checkbox NoNarrativesAtAll_Checkbox;
 
+var config bool LogNarrativeInfo;
+var localized string strLogNarrativeInfo;
+var localized string strLogNarrativeInfoTooltip;
+var MCM_API_Checkbox LogNarrativeInfo_Checkbox;
+
+
 //settings retrieved only via the NarrativeControl_Settings_Defaults.ini. Can't manage arrays in MCM!
 var config array<NarrativeToSkip> StrategyNarrativesToSkip;
 
@@ -84,6 +90,12 @@ function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
       NoNarrativesAtAll, // Initial value
       SaveNoNarrativesAtAll // Save handler
 	);
+	LogNarrativeInfo_Checkbox = group.AddCheckbox('LogNarrativeInfo', // Name
+      strLogNarrativeInfo, // Text
+      strLogNarrativeInfoTooltip, // Tooltip
+      LogNarrativeInfo, // Initial value
+      SaveLogNarrativeInfo // Save handler
+	);
     page.ShowSettings();
 }
 
@@ -91,6 +103,7 @@ function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 `MCM_API_BasicCheckboxSaveHandler(SaveNoGreetingsWhenNarrativePlaying, NoGreetingsWhenNarrativePlaying)
 `MCM_API_BasicCheckboxSaveHandler(SaveNoNarrativesInGeoscape, NoNarrativesInGeoscape)
 `MCM_API_BasicCheckboxSaveHandler(SaveNoNarrativesAtAll, NoNarrativesAtAll)
+`MCM_API_BasicCheckboxSaveHandler(SaveLogNarrativeInfo, LogNarrativeInfo)
 
 function LoadSavedSettings()
 {
@@ -98,6 +111,7 @@ function LoadSavedSettings()
 	NoGreetingsWhenNarrativePlaying = `MCM_CH_GetValue(class'NarrativeControl_Settings_Defaults'.default.NoGreetingsWhenNarrativePlaying, NoGreetingsWhenNarrativePlaying);
 	NoNarrativesInGeoscape = `MCM_CH_GetValue(class'NarrativeControl_Settings_Defaults'.default.NoNarrativesInGeoscape, NoNarrativesInGeoscape);
 	NoNarrativesAtAll = `MCM_CH_GetValue(class'NarrativeControl_Settings_Defaults'.default.NoNarrativesAtAll, NoNarrativesAtAll);
+	LogNarrativeInfo = `MCM_CH_GetValue(class'NarrativeControl_Settings_Defaults'.default.LogNarrativeInfo, LogNarrativeInfo);
 	
 	//get the values not exposed to MCM from the default INI
 	StrategyNarrativesToSkip = class'NarrativeControl_Settings_Defaults'.default.StrategyNarrativesToSkip;
@@ -115,6 +129,7 @@ simulated function ResetButtonClicked(MCM_API_SettingsPage Page)
 	NoGreetingsWhenNarrativePlaying_Checkbox.SetValue(class'NarrativeControl_Settings_Defaults'.default.NoGreetingsWhenNarrativePlaying, true);
 	NoNarrativesInGeoscape_Checkbox.SetValue(class'NarrativeControl_Settings_Defaults'.default.NoNarrativesInGeoscape, true);
 	NoNarrativesAtAll_Checkbox.SetValue(class'NarrativeControl_Settings_Defaults'.default.NoNarrativesAtAll, true);
+	LogNarrativeInfo_Checkbox.SetValue(class'NarrativeControl_Settings_Defaults'.default.LogNarrativeInfo, true);
 }
 
 function SaveButtonClicked(MCM_API_SettingsPage Page)

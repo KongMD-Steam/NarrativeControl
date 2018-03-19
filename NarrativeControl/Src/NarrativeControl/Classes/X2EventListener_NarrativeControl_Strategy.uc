@@ -59,8 +59,10 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 	soundPath = soundCueInfo[0];
 	cueText = soundCueInfo[1];
 	
-	//Uncomment this log function to investigate SoundCue Names
-	//`log("SoundPath:" @ soundPath @ "CueText:" @ cueText @ "MomentType:" @ Moment.eType @ "bUISound:" @ OverrideTuple.Data[4].b @ "FadeSpeed:" @ OverrideTuple.Data[5].f,,'NC');
+	if(settings.LogNarrativeInfo)
+	{	
+		`log("SoundPath:" @ soundPath @ "CueText:" @ cueText @ "MomentType:" @ Moment.eType @ "bUISound:" @ OverrideTuple.Data[4].b @ "FadeSpeed:" @ OverrideTuple.Data[5].f,,'NC');
+	}
 	
 	//`log("StrategyNarrativesToSkip Length:"@settings.StrategyNarrativesToSkip.length,,'NC');
 	
@@ -125,7 +127,10 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 		
 		if (shouldReturn)
 		{
-			//`log("NARRATIVE EXCLUDED",,'NC');
+			if(settings.LogNarrativeInfo)
+			{
+				`log("Narrative excluded. Reason: Custom narrative setting",,'NC');
+			}
 			return ELR_NoInterrupt;
 		}	
 	}
@@ -133,7 +138,10 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 	//block narratives on the Geoscape
 	if(settings.NoNarrativesInGeoscape && pres.StrategyMap2D != none)
 	{
-		//`log("Blocking Geoscape narrative",,'NC');
+		if(settings.LogNarrativeInfo)
+		{
+			`log("Narrative excluded. Reason: Geoscape narrative",,'NC');
+		}
 		
 		OverrideTuple.Data[0].b = false;
 
@@ -147,6 +155,11 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 		}
 		else
 		{
+			if(settings.LogNarrativeInfo)
+			{
+				`log("Narrative excluded. Reason: Bradford narrative",,'NC');
+			}
+		
 			OverrideTuple.Data[0].b = false;
 		}
 		return ELR_NoInterrupt;
