@@ -96,6 +96,11 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 	
 	if(settings.NoNarrativesAtAll)
 	{
+		if(settings.LogNarrativeInfo)
+		{
+			`log("Narrative excluded. Reason: all strategy narratives blocked",,'NC');
+		}
+	
 		OverrideTuple.Data[0].b = false;
 		return ELR_NoInterrupt; 
 	}
