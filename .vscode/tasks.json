@@ -21,7 +21,7 @@
         {
             "label": "runUnrealEditor",
             "type": "shell",
-            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\runUnrealEditor.ps1' -gamePath '${config:xcom.sdkroot}'",
+            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\runUnrealEditor.ps1' -sdkPath '${config:xcom.sdkroot}'",
             "problemMatcher": []
         }
     ]
