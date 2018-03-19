@@ -10,5 +10,6 @@ struct NarrativeToSkip
 {
 	var string Exclude;
 	var string Include;
+	var string SoundPath;		//the path of the SoundCue. Can be found in the Unreal Editor Content Browser
 };
 var config array<NarrativeToSkip> StrategyNarrativesToSkip;

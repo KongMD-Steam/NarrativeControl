@@ -39,17 +39,28 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 	local XComNarrativeMoment				Moment;
 	local NarrativeControl_Settings 		settings;
 	local XComHQPresentationLayer			pres;
-	local int 								idx;				//used in for loop below
-	local bool 								shouldReturn;		//used in for loop below
-
+	local int 								idx;					//used in for loop below
+	local bool 								shouldReturn;			//used in for loop below
+	local array<string>						soundCueInfo;			//includes cue name + path
+	local string							cueText, soundPath;		//variables created to make code more readable
+	
 	OverrideTuple = XComLWTuple(EventData);
 	settings = new class'NarrativeControl_Settings';
 	Moment = XComNarrativeMoment(OverrideTuple.Data[1].o);
 	pres = `HQPRES;
 	shouldReturn = false;
 	
+	/*Split the SoundCue into two parts: the CueName and the Path to the cue
+		Example: SoundSpeechStrategyCentral.S_GP_Doom_Rising_Central_Cue
+			soundCueInfo[0] is set to 'SoundSpeechStrategyCentral'
+			soundCueInfo[1] is set to 'S_GP_Doom_Rising_Central_Cue'
+	*/
+	ParseStringIntoArray(String(OverrideTuple.Data[2].n), soundCueInfo, ".", true);
+	soundPath = soundCueInfo[0];
+	cueText = soundCueInfo[1];
+	
 	//Uncomment this log function to investigate SoundCue Names
-	//`log("CueName:"@OverrideTuple.Data[2].n@"MomentType:"@Moment.eType@"bUISound:"@OverrideTuple.Data[4].b@"FadeSpeed:"@OverrideTuple.Data[5].f,,'NC');
+	//`log("SoundPath:" @ soundPath @ "CueText:" @ cueText @ "MomentType:" @ Moment.eType @ "bUISound:" @ OverrideTuple.Data[4].b @ "FadeSpeed:" @ OverrideTuple.Data[5].f,,'NC');
 	
 	//`log("StrategyNarrativesToSkip Length:"@settings.StrategyNarrativesToSkip.length,,'NC');
 	
@@ -89,15 +100,22 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 
 	//check custom exclusions
 	else if(settings.StrategyNarrativesToSkip.length > 0)
-	{
+	{	
 		for(idx = 0; idx < settings.StrategyNarrativesToSkip.length; ++idx )
 		{
-			//`log("Exclude:"@settings.StrategyNarrativesToSkip[idx].Exclude@"Include:"@settings.StrategyNarrativesToSkip[idx].Include,,'NC');
+			//`log("SoundPath:"@settings.StrategyNarrativesToSkip[idx].SoundPath@"Exclude:"@settings.StrategyNarrativesToSkip[idx].Exclude@"Include:"@settings.StrategyNarrativesToSkip[idx].Include,,'NC');
 			
-			//only exclude the narrative if the string from the 'Include' text isn't in the sound cue name
-			if(InStr(OverrideTuple.Data[2].n,settings.StrategyNarrativesToSkip[idx].Exclude) != INDEX_NONE && 
+			/*exclude the narrative if it meets these criteria:
+				a) The 'Exclude' string is found in the SoundCue name
+				b) The 'SoundPath' string is blank or is found in the SoundCue path
+				c) The 'Include' string is blank or is NOT found in the SoundCue name
+			*/
+			if(InStr(cueText,settings.StrategyNarrativesToSkip[idx].Exclude) != INDEX_NONE && 
+				(settings.StrategyNarrativesToSkip[idx].SoundPath == "" || 
+				InStr(soundPath,settings.StrategyNarrativesToSkip[idx].SoundPath) != INDEX_NONE) &&
+			
 				(settings.StrategyNarrativesToSkip[idx].Include == "" || 
-				InStr(OverrideTuple.Data[2].n,settings.StrategyNarrativesToSkip[idx].Include) == INDEX_NONE) )
+				InStr(cueText,settings.StrategyNarrativesToSkip[idx].Include) == INDEX_NONE) )
 			{  
 				OverrideTuple.Data[0].b = false;
 				shouldReturn = true;
@@ -121,7 +139,7 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 
 		return ELR_NoInterrupt;
 	}
-	else if(settings.BradfordNarratives != "All" && InStr(OverrideTuple.Data[2].n,"SoundSpeechStrategyCentral") != INDEX_NONE)
+	else if(settings.BradfordNarratives != "All" && InStr(soundPath,"SoundSpeechStrategyCentral") != INDEX_NONE)
 	{	
 		if (settings.BradfordNarratives == "Ambient Only" && (Moment.AmbientCriteriaTypeName != '' || Moment.AmbientConditionTypeNames.Length > 0))
 		{
@@ -135,8 +153,8 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 	}
 	
 	//stop the Shen/Tygan greeting narratives if there's already a narrative playing
-	else if(settings.NoGreetingsWhenNarrativePlaying && (InStr(OverrideTuple.Data[2].n,"Shen_Greeting") != INDEX_NONE 
-			|| InStr(OverrideTuple.Data[2].n,"Tygan_Greeting") != INDEX_NONE) )
+	else if(settings.NoGreetingsWhenNarrativePlaying && (InStr(cueText,"Shen_Greeting") != INDEX_NONE 
+			|| InStr(cueText,"Tygan_Greeting") != INDEX_NONE) )
 	{
 		Moment.bDontPlayIfNarrativePlaying = true;
 		OverrideTuple.Data[1].o = Moment;
