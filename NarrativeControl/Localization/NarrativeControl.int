@@ -1,0 +1,11 @@
+[NarrativeControl_Settings]
+; Strings displayed in the MCM menu
+
+strBradfordNarratives="Bradford Narratives"
+strBradfordNarrativesTooltip="All: All narratives play. Ambient Only: Only ambient narratives play. None: Narrative Control narratives play. These settings don't affect cinematic sequences"
+strNoGreetingsWhenNarrativePlaying="No Greetings when Narrative Playing"
+strNoGreetingsWhenNarrativePlayingTooltip="Skip Shen and Tygan's greeting narratives, when another narrative is playing"
+strNoNarrativesInGeoscape="No Narratives in Geoscape"
+strNoNarrativesInGeoscapeTooltip="Stops narrative moments from occurring in the Geoscape. Avenger, tactical, & cinematic narratives are unaffected"
+strNoNarrativesAtAll="No Narratives at all"
+strNoNarrativesAtAllTooltip="Remove all narratives in the strategy layer"

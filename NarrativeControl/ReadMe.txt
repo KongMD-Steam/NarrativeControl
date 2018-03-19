@@ -1,0 +1,1 @@
+Choose which narratives you want to exclude from the game. Remove Bradford's narrative events, remove narratives on the Geoscape, or remove specific narrative events from an NPC. You can use the default rules, or add your own rules in the INI. Enjoy!
