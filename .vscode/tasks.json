@@ -1,4 +1,4 @@
-// For this to work, set user configs `xcom.highlander.sdkroot` and `xcom.highlander.gameroot` to their correct paths.
+// For this to work, set user configs `xcom.sdkroot` and `xcom.gameroot` to their correct paths.
 // gameroot must point to the XCom2-WaroftheChosen directory. Make sure there aren't any trailing backslashes, as they will escape our quotation marks
 {
     "version": "2.0.0",
@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\build.ps1' -mod \"NarrativeControl\" -srcDirectory '${workspaceRoot}' -sdkPath '${config:xcom.highlander.sdkroot}' -gamePath '${config:xcom.highlander.gameroot}'",
+            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\build.ps1' -mod \"NarrativeControl\" -srcDirectory '${workspaceRoot}' -sdkPath '${config:xcom.sdkroot}' -gamePath '${config:xcom.gameroot}'",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -16,12 +16,12 @@
         {
             "label": "debug",
             "type": "shell",
-            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\run.ps1' -gamePath '${config:xcom.highlander.gameroot}'"
+            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\run.ps1' -gamePath '${config:xcom.gameroot}'"
         },
         {
             "label": "runUnrealEditor",
             "type": "shell",
-            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\runUnrealEditor.ps1' -gamePath '${config:xcom.highlander.sdkroot}'",
+            "command": "powershell.exe -file '${workspaceRoot}\\.scripts\\runUnrealEditor.ps1' -gamePath '${config:xcom.sdkroot}'",
             "problemMatcher": []
         }
     ]

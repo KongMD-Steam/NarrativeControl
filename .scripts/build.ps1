@@ -173,17 +173,17 @@ Write-Host "SDK Path: $sdkPath"
 Write-Host "Game Path: $gamePath"
 
 # Check if the user config is set up correctly
-if (([string]::IsNullOrEmpty($sdkPath) -or $sdkPath -eq '${config:xcom.highlander.sdkroot}') -or ([string]::IsNullOrEmpty($gamePath) -or $gamePath -eq '${config:xcom.highlander.gameroot}'))
+if (([string]::IsNullOrEmpty($sdkPath) -or $sdkPath -eq '${config:xcom.sdkroot}') -or ([string]::IsNullOrEmpty($gamePath) -or $gamePath -eq '${config:xcom.gameroot}'))
 {
-    FailureMessage "Please set up user config xcom.highlander.sdkroot and xcom.highlander.gameroot"
+    FailureMessage "Please set up user config xcom.sdkroot and xcom.gameroot"
 }
 elseif (!(Test-Path $sdkPath)) # Verify the SDK and game paths exist before proceeding
 {
-    FailureMessage "The path '$sdkPath' doesn't exist. Please adjust the xcom.highlander.sdkroot variable in your user config and retry."
+    FailureMessage "The path '$sdkPath' doesn't exist. Please adjust the xcom.sdkroot variable in your user config and retry."
 }
 elseif (!(Test-Path $gamePath)) 
 {
-    FailureMessage "The path '$gamePath' doesn't exist. Please adjust the xcom.highlander.gameroot variable in your user config and retry."
+    FailureMessage "The path '$gamePath' doesn't exist. Please adjust the xcom.gameroot variable in your user config and retry."
 }
 # alias params for clarity in the script (we don't want the person invoking this script to have to type the name -modNameCanonical)
 $modNameCanonical = $mod
