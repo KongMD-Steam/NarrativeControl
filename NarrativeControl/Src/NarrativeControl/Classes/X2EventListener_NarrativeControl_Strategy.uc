@@ -66,7 +66,7 @@ static function EventListenerReturn OverrideAddConversation(Object EventData, Ob
 	
 	//`log("StrategyNarrativesToSkip Length:"@settings.StrategyNarrativesToSkip.length,,'NC');
 	
-	if(OverrideTuple == none)
+	if(OverrideTuple == none || soundPath == "None")
 	{
 		//`REDSCREEN("OverrideAddConversation event triggered with invalid event data.");
 		return ELR_NoInterrupt;
